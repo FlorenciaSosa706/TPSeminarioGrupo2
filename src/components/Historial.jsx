@@ -205,28 +205,31 @@ const Historial = () => {
     <div className="historial-container">
       <div className="historial-header">
         <div className="vista-selector">
-          <button 
-            className={`vista-button ${vistaActual === 'dia' ? 'active' : ''}`}
-            onClick={() => cambiarVista('dia')}
-            disabled={!tieneHistorial}
-          >
-            DÍA
-          </button>
-          <button 
-            className={`vista-button ${vistaActual === 'semana' ? 'active' : ''}`}
-            onClick={() => cambiarVista('semana')}
-            disabled={!tieneHistorial}
-          >
-            SEMANA
-          </button>
-          <button 
-            className={`vista-button ${vistaActual === 'mes' ? 'active' : ''}`}
-            onClick={() => cambiarVista('mes')}
-            disabled={!tieneHistorial}
-          >
-            MES
-          </button>
-        </div>
+  <button 
+    className={`vista-button ${vistaActual === 'dia' ? 'active' : ''}`}
+    onClick={() => cambiarVista('dia')}
+    disabled={!tieneHistorial}
+  >
+    DÍA
+  </button>
+
+  <button 
+    className={`vista-button ${vistaActual === 'semana' ? 'active' : ''}`}  
+    onClick={() => cambiarVista('semana')}
+    disabled={!tieneHistorial}
+  >
+    SEMANA
+  </button>
+
+  <button 
+    className={`vista-button ${vistaActual === 'mes' ? 'active' : ''}`}
+    onClick={() => cambiarVista('mes')}
+    disabled={!tieneHistorial}
+  >
+    MES
+  </button>
+</div>
+
 
         <div className="titulo-navegacion">
           <h3 className="historial-titulo">
@@ -378,6 +381,6 @@ const Historial = () => {
       )}
     </div>
   );
-};
+}
 
 export default Historial;

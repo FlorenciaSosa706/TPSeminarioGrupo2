@@ -81,10 +81,12 @@ const HistorialSelectors = ({
           <button
             onClick={handleClickSeleccionarSemana}
             className={`semana-button ${(!filtroMes || !filtroAnio) ? 'disabled-warning' : ''}`}
+
             disabled={!tieneHistorial}
           >
             <span className="button-text">
               {filtroMes && filtroAnio ? `SEMANAS DE ${filtroMes} ${filtroAnio}` : 'SELECCIONAR SEMANA'}
+
             </span>
             <span className="dropdown-icon">
               {showSemanas ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -165,4 +167,3 @@ const HistorialSelectors = ({
 };
 
 export default HistorialSelectors;
-

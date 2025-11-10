@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { Doughnut, Bar } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
   ArcElement,
-  Tooltip,
-  Legend,
+  BarElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
-  BarElement
+  Tooltip
 } from 'chart.js';
-import { Phone, Handshake } from 'lucide-react';
+import { Handshake, Phone } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Bar, Doughnut } from 'react-chartjs-2';
 import './Dashboard.css';
 
 // Registrar los componentes necesarios
@@ -24,10 +24,11 @@ const centerTextPlugin = {
       const { text, color, fontSize } = chart.config.options.plugins.centerText;
       
       ctx.restore();
-      ctx.font = `bold ${fontSize}px Arial`;
+      
       ctx.textBaseline = 'middle';
       ctx.fillStyle = color;
-      
+      ctx.font = `bold ${fontSize}px Arial`;
+
       const textX = Math.round((width - ctx.measureText(text).width) / 2);
       const textY = height / 2;
       
@@ -49,6 +50,7 @@ const Dashboard = () => {
   const month = String(hoyDate.getMonth() + 1).padStart(2, '0');
   const day = String(hoyDate.getDate()).padStart(2, '0');
   const hoy = `${year}-${month}-${day}`;
+
   
   // Formatear fecha para mostrar en las cards
   const fechaLegible = hoyDate.toLocaleDateString('es-ES', { 
@@ -87,6 +89,7 @@ const Dashboard = () => {
   const obtenerMetricasDiarias = async () => {
     try {
       const res = await fetch(`http://localhost:5000/llamadas/diarias/${userData._id}`);
+
       const data = await res.json();
 
       setDiarias(data.porDia?.[hoy] || null);
@@ -98,11 +101,13 @@ const Dashboard = () => {
   const obtenerResumenSemanal = async () => {
     try {
       const res = await fetch(`http://localhost:5000/llamadas/resumen/${userData._id}`);
+
       const data = await res.json();
       setResumen(data);
       
       // Obtener datos por día de la semana
       const resPorDia = await fetch(`http://localhost:5000/llamadas/semana/${userData._id}`);
+
       const dataPorDia = await resPorDia.json();
       setResumen(prev => ({ ...prev, porDia: dataPorDia }));
     } catch (err) {
@@ -146,11 +151,13 @@ const Dashboard = () => {
   const weeklyCallsPercentage = weeklyCallsGoal > 0 ? Math.round((totalCalls / weeklyCallsGoal) * 100) : 0;
   const weeklyAgreementsPercentage = weeklyAgreementsGoal > 0 ? Math.round((totalAgreements / weeklyAgreementsGoal) * 100) : 0;
   const dailyEffectiveness = dailyCalls > 0 ? Math.round((dailyAgreements / dailyContestadas) * 100) : 0;
-  const formattedTotalTime = dailyTotalDuration < 60 
+  const formattedTotalTime =
+  dailyTotalDuration < 60 
     ? `${dailyTotalDuration} min`
     : Math.floor(dailyTotalDuration / 60) > 0 && dailyTotalDuration % 60 > 0
       ? `${Math.floor(dailyTotalDuration / 60)}h ${dailyTotalDuration % 60}min`
       : `${Math.floor(dailyTotalDuration / 60)}h`;
+
 
   // Configuración del gráfico circular
   const createCircularChart = (percentage, color) => {
@@ -193,8 +200,8 @@ const Dashboard = () => {
 
   // Detectar si un dato representa un día hábil (Lun-Vie).
   // Intenta varias estrategias para evitar filtrar todo si el formato cambia:
-  // - si existe `dateStr` (d.fecha) se parsea y se usa el día de la semana
-  // - si no, normaliza el nombre (`d.dia`) y acepta múltiples variantes (abreviaturas y nombres en inglés)
+  // - si existe dateStr (d.fecha) se parsea y se usa el día de la semana
+  // - si no, normaliza el nombre (d.dia) y acepta múltiples variantes (abreviaturas y nombres en inglés)
   const isWeekday = (dayName, dateStr) => {
     // 1) Si tenemos fecha parseable, usarla (0=Dom,6=Sab)
     if (dateStr) {
@@ -262,6 +269,7 @@ const Dashboard = () => {
                         const dayData = filteredWeeklyData[context.dataIndex];
                         const extra = dayData?.esHoy ? ' (HOY)' : '';
                         return `Tasa de contacto: ${value}%${extra}`;
+
                       }
           }
         }
@@ -308,6 +316,7 @@ const Dashboard = () => {
                         const dayData = filteredWeeklyData[context.dataIndex];
                         const extra = dayData?.esHoy ? ' (HOY)' : '';
                         return `Duración promedio: ${value} min${extra}`;
+
                       }
           }
         }
